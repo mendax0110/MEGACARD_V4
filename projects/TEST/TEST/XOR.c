@@ -5,8 +5,8 @@
  *  Author: Adrian
  */ 
 #define F_CPU 12000000UL        //Taktfrequenz Quarz
-#include <avr/io.h>
-#include <util/delay.h>
+#include <avr/io.h>				//Headerdatei für I/O-Register
+#include <util/delay.h>			//Headerdatei für _delay_ms
 
 int main(void)
 {
