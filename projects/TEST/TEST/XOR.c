@@ -24,3 +24,4 @@ int main(void)
 		_delay_ms(1000);    //1 Sekunde warten
 	}
 }
+ 
