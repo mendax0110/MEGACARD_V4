@@ -7,9 +7,9 @@
 #define F_CPU 12000000UL	//Systemtakt bereits in Project-Properties definiert
 #include <util/delay.h>    //Delay-Funktionen einbinden
 #include <avr/io.h>
-#define TASTER PA0		//verwendeten Taster definieren:
 
-#define T_PRELL 20 //Entprellzeit für Taster in ms
+#define TASTER PA0		//verwendeten Taster definieren:
+#define T_PRELL 20 //Entprellzeit fï¿½r Taster in ms
 
 int main(void)
 {
