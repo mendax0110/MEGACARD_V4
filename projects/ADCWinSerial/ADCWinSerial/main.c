@@ -4,6 +4,8 @@
  * Created: 05.01.2023 15:32:58
  * Author : Adrian
  */ 
+#define __AVR_ATmega15A__
+
 #define F_CPU 8000000UL
 
 #include <avr/io.h>
@@ -13,6 +15,7 @@
 #define BAUD 9600
 #define UBBR_VALUE ((F_CPU)/(BAUD*16UL)-1)
 
+/*init the USART*/
 void USART_init(unsigned int ubrr)
 {
 	UBRRH = (unsigned char)(ubrr>>8);
@@ -20,6 +23,7 @@ void USART_init(unsigned int ubrr)
 	UCSRB = (1<<TXEN);
 }
 
+/*send the data over USART*/
 int USART_send(char c, FILE *stream)
 {
 	while(!(UCSRA & (1<<UDRE)));
@@ -27,6 +31,7 @@ int USART_send(char c, FILE *stream)
 	return 0;
 }
 
+/*main function*/
 int main(void)
 {
 	USART_init(UBBR_VALUE);
@@ -37,6 +42,7 @@ int main(void)
 	
 	char buffer[10];
 	
+	/*loop through*/
 	while(1)
 	{
 		ADCSRA |= (1<<ADSC);
@@ -50,4 +56,3 @@ int main(void)
 	
 	return 0;
 }
-
