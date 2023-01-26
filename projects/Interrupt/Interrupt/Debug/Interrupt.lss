@@ -1,0 +1,137 @@
+
+Interrupt.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000000ac  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  00000100  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  00000100  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000130  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000028  00000000  00000000  0000016c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   0000065b  00000000  00000000  00000194  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 000005cf  00000000  00000000  000007ef  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   00000265  00000000  00000000  00000dbe  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000034  00000000  00000000  00001024  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    00000381  00000000  00000000  00001058  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_ranges 00000018  00000000  00000000  000013d9  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   8:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  10:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  14:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  18:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  1c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  20:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  24:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  28:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  2c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  30:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  34:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  38:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  3c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  40:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  44:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  48:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  4c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  50:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d4 e0       	ldi	r29, 0x04	; 4
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+  60:	0e 94 3d 00 	call	0x7a	; 0x7a <main>
+  64:	0c 94 54 00 	jmp	0xa8	; 0xa8 <_exit>
+
+00000068 <__bad_interrupt>:
+  68:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000006c <init_ports>:
+#include <util/delay.h>		// Delay Library
+#include <avr/portpins.h>	// Library für Port Pins
+
+void init_ports() 
+{
+	DDRA = 0x00;						//PORTA -> Eingang
+  6c:	1a ba       	out	0x1a, r1	; 26
+	PORTA = 0x0F;						//PORTA0 -> A1, A2, A3 -> Pullup
+  6e:	8f e0       	ldi	r24, 0x0F	; 15
+  70:	8b bb       	out	0x1b, r24	; 27
+	
+	DDRC = 0xFF;					// PORTC wird als Ausgang gesetzt
+  72:	8f ef       	ldi	r24, 0xFF	; 255
+  74:	84 bb       	out	0x14, r24	; 20
+	PORTC = 0x00;					//Die oberen 4 Bits sind low, die unteren 4Bit sind High
+  76:	15 ba       	out	0x15, r1	; 21
+  78:	08 95       	ret
+
+0000007a <main>:
+}
+
+int main(void)
+{
+	init_ports();					//Ports im main initialisieren 
+  7a:	0e 94 36 00 	call	0x6c	; 0x6c <init_ports>
+
+	while (1)
+	{
+		PORTC = PINA;		//0xXF - solange keine Taste gedrückt wird
+  7e:	89 b3       	in	r24, 0x19	; 25
+  80:	85 bb       	out	0x15, r24	; 21
+							//X..4..7 - X undefinierter Zustand
+		
+		PORTC = PINA & 0x0F;	// Verknüpfung 4..7 mit 0 
+  82:	89 b3       	in	r24, 0x19	; 25
+  84:	8f 70       	andi	r24, 0x0F	; 15
+  86:	85 bb       	out	0x15, r24	; 21
+								// Wenn PA0 gedrückt wird-> PORTC: 0b00001110 -> 0x0E
+		
+		if((PINA & 0x0F) == 0x0E)	// Wenn Taste PA0 gedrückt wird -> LED3 leuchtet
+  88:	89 b3       	in	r24, 0x19	; 25
+  8a:	8f 70       	andi	r24, 0x0F	; 15
+  8c:	8e 30       	cpi	r24, 0x0E	; 14
+  8e:	11 f4       	brne	.+4      	; 0x94 <main+0x1a>
+		{
+			PORTC = (1<<PC3);
+  90:	88 e0       	ldi	r24, 0x08	; 8
+  92:	85 bb       	out	0x15, r24	; 21
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  94:	2f ef       	ldi	r18, 0xFF	; 255
+  96:	8a e1       	ldi	r24, 0x1A	; 26
+  98:	97 eb       	ldi	r25, 0xB7	; 183
+  9a:	21 50       	subi	r18, 0x01	; 1
+  9c:	80 40       	sbci	r24, 0x00	; 0
+  9e:	90 40       	sbci	r25, 0x00	; 0
+  a0:	e1 f7       	brne	.-8      	; 0x9a <main+0x20>
+  a2:	00 c0       	rjmp	.+0      	; 0xa4 <main+0x2a>
+  a4:	00 00       	nop
+  a6:	eb cf       	rjmp	.-42     	; 0x7e <main+0x4>
+
+000000a8 <_exit>:
+  a8:	f8 94       	cli
+
+000000aa <__stop_program>:
+  aa:	ff cf       	rjmp	.-2      	; 0xaa <__stop_program>
