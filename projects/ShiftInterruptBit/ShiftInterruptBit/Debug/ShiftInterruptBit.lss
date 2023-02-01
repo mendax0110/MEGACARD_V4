@@ -1,0 +1,181 @@
+
+ShiftInterruptBit.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000000ec  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  00000160  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000001  00800060  00800060  00000160  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  00000160  2**0
+                  CONTENTS, READONLY
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000190  2**2
+                  CONTENTS, READONLY
+  5 .debug_aranges 00000028  00000000  00000000  000001cc  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_info   000005e3  00000000  00000000  000001f4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_abbrev 0000056d  00000000  00000000  000007d7  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_line   0000020e  00000000  00000000  00000d44  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_frame  00000044  00000000  00000000  00000f54  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    0000034c  00000000  00000000  00000f98  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_loc    0000003c  00000000  00000000  000012e4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_ranges 00000018  00000000  00000000  00001320  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__vector_1>
+   8:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+   c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  10:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  14:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  18:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  1c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  20:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  24:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  28:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  2c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  30:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  34:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  38:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  3c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  40:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  44:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  48:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  4c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  50:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d4 e0       	ldi	r29, 0x04	; 4
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_clear_bss>:
+  60:	20 e0       	ldi	r18, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	01 c0       	rjmp	.+2      	; 0x6a <.do_clear_bss_start>
+
+00000068 <.do_clear_bss_loop>:
+  68:	1d 92       	st	X+, r1
+
+0000006a <.do_clear_bss_start>:
+  6a:	a1 36       	cpi	r26, 0x61	; 97
+  6c:	b2 07       	cpc	r27, r18
+  6e:	e1 f7       	brne	.-8      	; 0x68 <.do_clear_bss_loop>
+  70:	0e 94 4f 00 	call	0x9e	; 0x9e <main>
+  74:	0c 94 74 00 	jmp	0xe8	; 0xe8 <_exit>
+
+00000078 <__bad_interrupt>:
+  78:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000007c <__vector_1>:
+// Declare a volatile variable to keep track of the number of interrupts
+volatile unsigned char count;
+
+// Interrupt Service Routine for INT0
+ISR(INT0_vect)
+{
+  7c:	1f 92       	push	r1
+  7e:	0f 92       	push	r0
+  80:	0f b6       	in	r0, 0x3f	; 63
+  82:	0f 92       	push	r0
+  84:	11 24       	eor	r1, r1
+  86:	8f 93       	push	r24
+	// Increment the count variable every time the interrupt is triggered
+	count++;
+  88:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <__DATA_REGION_ORIGIN__>
+  8c:	8f 5f       	subi	r24, 0xFF	; 255
+  8e:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <__DATA_REGION_ORIGIN__>
+}
+  92:	8f 91       	pop	r24
+  94:	0f 90       	pop	r0
+  96:	0f be       	out	0x3f, r0	; 63
+  98:	0f 90       	pop	r0
+  9a:	1f 90       	pop	r1
+  9c:	18 95       	reti
+
+0000009e <main>:
+
+int main(void)
+{
+	DDRD &= ~(1 << PD2);	// set PD2 as input
+  9e:	81 b3       	in	r24, 0x11	; 17
+  a0:	8b 7f       	andi	r24, 0xFB	; 251
+  a2:	81 bb       	out	0x11, r24	; 17
+	PORTD |= (1 << PD2);	// Enable pull-up resistor on PD2
+  a4:	82 b3       	in	r24, 0x12	; 18
+  a6:	84 60       	ori	r24, 0x04	; 4
+  a8:	82 bb       	out	0x12, r24	; 18
+	GICR |= (1 << INT0);	// Enable INT0 interrupt
+  aa:	8b b7       	in	r24, 0x3b	; 59
+  ac:	80 64       	ori	r24, 0x40	; 64
+  ae:	8b bf       	out	0x3b, r24	; 59
+	MCUCR |= (1 << ISC00);	// Trigger INT0 on any logical change
+  b0:	85 b7       	in	r24, 0x35	; 53
+  b2:	81 60       	ori	r24, 0x01	; 1
+  b4:	85 bf       	out	0x35, r24	; 53
+	
+	sei();	// Enable global interrupts
+  b6:	78 94       	sei
+	
+	while(1)
+	{
+		 // Check if the count variable has reached 8
+		if(count >= 8)
+  b8:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <__DATA_REGION_ORIGIN__>
+  bc:	88 30       	cpi	r24, 0x08	; 8
+  be:	30 f0       	brcs	.+12     	; 0xcc <main+0x2e>
+		{
+			 // If it has, set PB0 to high
+			PORTB |= (1 << PB0);
+  c0:	88 b3       	in	r24, 0x18	; 24
+  c2:	81 60       	ori	r24, 0x01	; 1
+  c4:	88 bb       	out	0x18, r24	; 24
+			// Reset the count variable to zero
+			count = 0;
+  c6:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <__DATA_REGION_ORIGIN__>
+  ca:	03 c0       	rjmp	.+6      	; 0xd2 <main+0x34>
+		}
+		else
+		{
+			// If the count variable has not reached 8, set PB0 to low
+			PORTB &= ~(1 << PB0);
+  cc:	88 b3       	in	r24, 0x18	; 24
+  ce:	8e 7f       	andi	r24, 0xFE	; 254
+  d0:	88 bb       	out	0x18, r24	; 24
+		}
+		
+		// Shift the value of PORTB one bit to the left, rotating the LED pattern
+		PORTB = (PORTB << 1) | (PORTB >> 7);
+  d2:	88 b3       	in	r24, 0x18	; 24
+  d4:	90 e0       	ldi	r25, 0x00	; 0
+  d6:	88 0f       	add	r24, r24
+  d8:	99 1f       	adc	r25, r25
+  da:	98 b3       	in	r25, 0x18	; 24
+  dc:	99 1f       	adc	r25, r25
+  de:	99 27       	eor	r25, r25
+  e0:	99 1f       	adc	r25, r25
+  e2:	89 2b       	or	r24, r25
+  e4:	88 bb       	out	0x18, r24	; 24
+	} 
+  e6:	e8 cf       	rjmp	.-48     	; 0xb8 <main+0x1a>
+
+000000e8 <_exit>:
+  e8:	f8 94       	cli
+
+000000ea <__stop_program>:
+  ea:	ff cf       	rjmp	.-2      	; 0xea <__stop_program>
