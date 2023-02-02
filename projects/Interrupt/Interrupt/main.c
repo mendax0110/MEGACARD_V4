@@ -4,39 +4,54 @@
  * Created: 26.01.2023 10:10:41
  * Author : Adrian
  */ 
-#define F_CPU 12000000UL	// Quarzfrequenz UL Unsigned Long
+#define F_CPU 12000000UL	// Frequenz Quarz
 
-#include <avr/io.h>			// Library Ein/Ausgabe - Ports
-#include <util/delay.h>		// Delay Library
-#include <avr/portpins.h>	// Library für Port Pins
+#include <avr/io.h>			// std avr library
+#include <util/delay.h>		// std delay lib
+#include <avr/portpins.h>	// std port pin lib
+#include <avr/interrupt.h>	// std avr interrupt lib
 
-void init_ports() 
+ISR(INT1_vect)
 {
-	DDRA = 0x00;						//PORTA -> Eingang
-	PORTA = 0x0F;						//PORTA0 -> A1, A2, A3 -> Pullup
+	PORTC |= (1 << PC4);
+}
+
+void init_interrupt()		// Interrupt Funktion(um im main aufzurufen)
+{
+	GICR |= (1 << INT1);	// Interrupt 1 wird freigeschaltet - AuslÃ¶sen mÃ¶glich
+	MCUCR |= (1 << ISC11);	// Interrupt 1 wird bei fallender Flanke aufgelÃ¶st
+}
+
+void init_ports()        // Funktion (um im main aufzurufen)
+{
+	DDRD &= (1<<PD3);					// Input fÃ¼r INT1
 	
-	DDRC = 0xFF;					// PORTC wird als Ausgang gesetzt
-	PORTC = 0x00;					//Die oberen 4 Bits sind low, die unteren 4Bit sind High
+	DDRA &= ~(1 << PA0);				// PA1, PA0 -> Eingang
+	DDRA &= ~(1 << PA1);				// PA1, PA0 -> Eingang
+	PORTA |= (1 << PA0)|(1<<PA0);;		// PortA = Pullup  -> auf High setzen
+	
+	DDRC = 0xFF;						// Port C - Ausgang
+	PORTC |= (1 << PC7);				// LED 7 wird gesetzt (1000 0000 -> 0x80)	
 }
 
 int main(void)
 {
-	init_ports();					//Ports im main initialisieren 
-
+	char keyboard_in = 0x00;    //Variable vom Typ Character -> 8 Bit (1Byte)
+	
+	cli();						// interrupt sperren
+	init_interrupt();
+	init_ports();
+	sei();						// interrupt freischalten
+	
 	while (1)
 	{
-		PORTC = PINA;		//0xXF - solange keine Taste gedrückt wird
-							//X..4..7 - X undefinierter Zustand
-		
-		PORTC = PINA & 0x0F;	// Verknüpfung 4..7 mit 0 
-								// Wenn PA0 gedrückt wird-> PORTC: 0b00001110 -> 0x0E
-		
-		if((PINA & 0x0F) == 0x0E)	// Wenn Taste PA0 gedrückt wird -> LED3 leuchtet
+		keyboard_in = PINA;		// Maskierung -> Erzwinge, dass die Bits A4 - A7 = 0 sind
+		if ((keyboard_in & (0x01)) == 0x00)
 		{
-			PORTC = (1<<PC3);
+			PORTC = 0x01;
 		}
-							
+		
 		_delay_ms(5000);
+		PORTC = (1<<PC7);
 	}
 }
-
