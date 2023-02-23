@@ -13,7 +13,14 @@
 
 ISR(INT1_vect)
 {
-	PORTC |= (1 << PC4);
+	if(PORTC == 0b10000000)
+	{
+		PORTC |= (1 << PC4);
+	}
+	else
+	{
+		PORTC &= 0b10000000;
+	}
 }
 
 void init_interrupt()		// Interrupt Funktion(um im main aufzurufen)
@@ -28,7 +35,7 @@ void init_ports()        // Funktion (um im main aufzurufen)
 	
 	DDRA &= ~(1 << PA0);				// PA1, PA0 -> Eingang
 	DDRA &= ~(1 << PA1);				// PA1, PA0 -> Eingang
-	PORTA |= (1 << PA0)|(1<<PA0);;		// PortA = Pullup  -> auf High setzen
+	PORTA |= (1 << PA1)|(1<<PA0);;		// PortA = Pullup  -> auf High setzen
 	
 	DDRC = 0xFF;						// Port C - Ausgang
 	PORTC |= (1 << PC7);				// LED 7 wird gesetzt (1000 0000 -> 0x80)	
@@ -43,6 +50,8 @@ int main(void)
 	init_ports();
 	sei();						// interrupt freischalten
 	
+	//PORTC &= ~(1 << PC4);
+	
 	while (1)
 	{
 		keyboard_in = PINA;		// Maskierung -> Erzwinge, dass die Bits A4 - A7 = 0 sind
@@ -52,6 +61,6 @@ int main(void)
 		}
 		
 		_delay_ms(5000);
-		PORTC = (1<<PC7);
+		PORTC = (1<<PC7);	
 	}
 }
