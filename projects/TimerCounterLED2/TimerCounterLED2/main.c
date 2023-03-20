@@ -10,13 +10,16 @@
 #include <avr/interrupt.h>
 #include <avr/portpins.h>
 
+// global variables
 volatile uint8_t counter = 0;
 
+// timer/counter 1 compare match A interrupt
 ISR(TIMER1_COMPA_vect)
 {
 	counter++;
 }
 
+// main func to initialize the program
 int main(void)
 {
 	DDRB |= (1 << PB0);		// set PB0 as output
