@@ -11,12 +11,20 @@
 #include <avr/interrupt.h>
 
 
+ISR(TIMER0_OVF_vect)
+{
+	TCNT0 = 245;
+	PORTC ^= (1<<PC6);
+}
+
 void init_timer0()
 {
 	TCCR0 &= ~(1 << WGM00);							// Normal Mode
 	TCCR0 &= ~(1 << WGM01);	
 	TCCR0 |= (1 << COM00) | (1 << CS02) | (CS00);	// Toggle - OC0, F_CPU: 1024
+	
 	TCNT0 = 245;									// Preload - 245 => Out = F_CPU:1024:10
+	TIMSK |= (1 << TOIE0);						// Overflow Interrupts enabled
 }
 
 void init_ports()
@@ -38,4 +46,3 @@ int main(void)
     {
     }
 }
-
