@@ -1,5 +1,5 @@
  /*
- * SignalerzeugungCTC.c
+ * CTCSequences.c
  * Timer0_CTC_Mode
  *
  * Created: 20.04.2023 15:40:16
@@ -26,6 +26,25 @@ ISR(TIMER0_COMP_vect)
 	// toggle the LED
 	PORTC ^= (1 << PC7);
 }
+
+//ISR(TIMER0_COMP_vect)
+//{
+	//static uint8_t ocr = 0;
+	//OCR0 = ocr;
+	//ocr += 2;
+	//if (ocr >= 255) ocr = 0;
+	//// toggle the LED
+	//PORTC ^= (1 << PC7);
+//}
+
+//ISR(TIMER0_COMP_vect)
+//{
+	//OCR0 = 127;
+	//// toggle the LED
+	//PORTC ^= (1 << PC7);
+//}
+
+
 
 // init the ports
 void init_ports()
