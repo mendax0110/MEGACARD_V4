@@ -10,13 +10,20 @@
 #include <avr/io.h>
 #include <avr/portpins.h>
 #include <avr/interrupt.h>
-#include <avr/delay.h>
+#include <util/delay.h>
+
+volatile uint8_t freqDivider = 0; // max 356
 
 // ISR for the timer0
 ISR(TIMER0_COMP_vect)
 {
-	// toggle the LED
-	PORTC ^= (1 << PC7);
+	freqDivider++; // with every run increment +1
+	
+	if(freqDivider == 10)
+	{
+		PORTC ^= (1 << PC7);	// toggle LED7	
+		freqDivider = 0;		// Reset
+	}
 }
 
 // init the ports
