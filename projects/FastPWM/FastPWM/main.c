@@ -16,7 +16,10 @@ void init_ports()
 	PORTC |= (1 << PC7);	// Indicator LED - Turn on to check
 	
 	DDRB |= (1 << PB3);		// signal on PB3
-	PORTB &= ~(1 << PB3);	// set PB3 to low (OC0 -> Output) 
+	PORTB &= ~(1 << PB3);	// set PB3 to low (OC0 -> Output)
+	
+	DDRA &= ~((1 << PA0) | (1 << PA1)); 	// set PA0 and PA1 as input
+	PORTA |= ((1 << PA0) | (1 << PA1)); 	// enable pull-up resistor for PA0 and PA1 
 }
 
 void init_fast_PWM()
@@ -35,12 +38,32 @@ int main(void)
     
 	sei();				// free the global interrupt
 	
-	// how to change the pulse width with S0 or S1
-	// how to set on the LED's
-	
-	
     while (1) 
     {
+		// check for button press on PA0 and PA1
+		if ((PINA & (1 << PA0)) == 0) 
+		{
+			PORTC |= (1 << PC0);	// turn on the PC0 LED
+			PORTC &= ~(1 << PC1);	// turn off the PC1 LED
+			OCR0 = 200;				// set pulse width to 78.125%
+		}
+		else if ((PINA & (1 << PA1)) == 0) 
+		{
+			PORTC &= ~(1 << PC0);	// turn off the PC0 LED
+			PORTC |= (1 << PC1);	// turn on the PC1 LED
+			OCR0 = 75;				// set pulse width to 29.3%
+		}
+		
+		// set the LED based on the pulse width and button presses
+		if (OCR0 == 200)
+		{
+			PORTC |= (1 << PC0);	// turn on the PC0 LED
+			PORTC &= ~(1 << PC1);	// turn off the PC1 LED
+		}
+		else if(OCR0 == 75)
+		{
+			PORTC &= ~(1 << PC0);	// turn off the PC0 LED
+			PORTC |= (1 << PC1);	// turn on the PC1 LED
+		}
     }
 }
-
