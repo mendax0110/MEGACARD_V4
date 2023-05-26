@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Atmel Studio Solution File, Format Version 11.00
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Timer", "Timer\Timer.cproj", "{DD624765-6E0A-405E-986F-2C6608A8491B}"
+EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "CTC", "CTC\CTC.cproj", "{99D69710-DADE-490F-B52D-DFBD90D72674}"
+EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "PWM", "PWM\PWM.cproj", "{8CF82EA3-196F-4A16-94F2-17C04181BB4E}"
+EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "INT", "INT\INT.cproj", "{38127F50-70DD-457F-8238-9AE5C545B227}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|AVR = Debug|AVR
+		Release|AVR = Release|AVR
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DD624765-6E0A-405E-986F-2C6608A8491B}.Debug|AVR.ActiveCfg = Debug|AVR
+		{DD624765-6E0A-405E-986F-2C6608A8491B}.Debug|AVR.Build.0 = Debug|AVR
+		{DD624765-6E0A-405E-986F-2C6608A8491B}.Release|AVR.ActiveCfg = Release|AVR
+		{DD624765-6E0A-405E-986F-2C6608A8491B}.Release|AVR.Build.0 = Release|AVR
+		{99D69710-DADE-490F-B52D-DFBD90D72674}.Debug|AVR.ActiveCfg = Debug|AVR
+		{99D69710-DADE-490F-B52D-DFBD90D72674}.Debug|AVR.Build.0 = Debug|AVR
+		{99D69710-DADE-490F-B52D-DFBD90D72674}.Release|AVR.ActiveCfg = Release|AVR
+		{99D69710-DADE-490F-B52D-DFBD90D72674}.Release|AVR.Build.0 = Release|AVR
+		{8CF82EA3-196F-4A16-94F2-17C04181BB4E}.Debug|AVR.ActiveCfg = Debug|AVR
+		{8CF82EA3-196F-4A16-94F2-17C04181BB4E}.Debug|AVR.Build.0 = Debug|AVR
+		{8CF82EA3-196F-4A16-94F2-17C04181BB4E}.Release|AVR.ActiveCfg = Release|AVR
+		{8CF82EA3-196F-4A16-94F2-17C04181BB4E}.Release|AVR.Build.0 = Release|AVR
+		{38127F50-70DD-457F-8238-9AE5C545B227}.Debug|AVR.ActiveCfg = Debug|AVR
+		{38127F50-70DD-457F-8238-9AE5C545B227}.Debug|AVR.Build.0 = Debug|AVR
+		{38127F50-70DD-457F-8238-9AE5C545B227}.Release|AVR.ActiveCfg = Release|AVR
+		{38127F50-70DD-457F-8238-9AE5C545B227}.Release|AVR.Build.0 = Release|AVR
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
