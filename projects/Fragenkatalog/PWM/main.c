@@ -25,6 +25,7 @@ ISR(TIMER0_OVF_vect)
 	PORTC &= ~(1 << PC4);	// reset LED
 }
 
+// initialize ports
 void init_Ports()
 {
 	DDRC = 0xFF;
@@ -38,26 +39,28 @@ void init_Ports()
 	PORTA |= ((1 << PA0)|(1 << PA1));
 }
 
+// initialize fast PWM
 void init_fast_PWM()
 {
 	PORTC ^= (1 << PC6);	// indicator LED
 	
 	TCCR0 |= (1 << WGM00)|(1 << WGM01)|(1 << CS00)|(1 << COM01); // PWM Mode
 	
-	OCR0 = OCR0Var;
+	OCR0 = OCR0Var; // for PWM via S0 and S1
 	
 	TIMSK |= (1 << OCIE0)|(1 << TOIE0); // software casting PWM Signal to the desired LED
 }
 
 int main(void)
 {
-	cli();
-	init_Ports();
-	init_fast_PWM();
-	sei();
+	cli();  // disable global interrupts
+	init_Ports();       // initialize ports
+	init_fast_PWM();    // initialize fast PWM    
+	sei();  // enable global interrupts
 	
 	while(1)
 	{
+        // for S0 and S1, if pressed, increase or decrease the PWM value
 		if((PINA & (1 << PA0)) == 0)
 		{
 			OCR0Var += 25;
