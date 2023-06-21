@@ -14,6 +14,20 @@
 
 volatile unsigned int milliseconds = 0;
 
+// 7-segment display segment patterns (0-9)
+const uint8_t digitPatterns[10] = {
+	0b00111111,  // 0
+	0b00000110,  // 1
+	0b01011011,  // 2
+	0b01001111,  // 3
+	0b01100110,  // 4
+	0b01101101,  // 5
+	0b01111101,  // 6
+	0b00000111,  // 7
+	0b01111111,  // 8
+	0b01101111   // 9
+};
+
 void initTimer1()
 {
 	// Set Timer1 to CTC mode
@@ -36,6 +50,30 @@ void initGPIO()
 {
 	// Set PB3 as output
 	DDRB |= (1 << PB3);
+
+	// Set PB2 as output
+	DDRC |= (1 << PC3);
+}
+
+void toggleLED()
+{
+	// Toggle the state of the LED on PB2
+	PORTB ^= (1 << PC3);
+}
+
+void displayDigit(uint8_t digit)
+{
+	// Select the digit by clearing PB3
+	PORTB &= ~(1 << PB3);
+
+	// Set the segment pattern for the corresponding digit
+	PORTB = (PORTB & 0xF0) | digitPatterns[digit];
+
+	// Delay to allow the digit to be displayed
+	_delay_ms(2);
+
+	// Disable all segments by setting PB3
+	PORTB |= (1 << PB3);
 }
 
 void printTime()
@@ -45,9 +83,14 @@ void printTime()
 	unsigned int minutes = seconds / 60;
 	seconds %= 60;
 
-	// Print the time output
-	printf("%02u:%02u\r", minutes, seconds);
-	fflush(stdout);
+	// Display the minutes digit
+	displayDigit(minutes % 10);
+
+	// Delay to separate the digit display
+	_delay_ms(2);
+
+	// Display the seconds digit
+	displayDigit(seconds % 10);
 }
 
 ISR(TIMER1_COMPA_vect)
@@ -58,6 +101,9 @@ ISR(TIMER1_COMPA_vect)
 	if (milliseconds % 1000 == 0)
 	{
 		printTime();
+
+		// Toggle the LED every second
+		toggleLED();
 	}
 }
 
@@ -67,9 +113,9 @@ int main(void)
 	initTimer1();
 	initGPIO();
 	sei();
-	
+
 	while (1)
 	{
-	
+
 	}
 }
