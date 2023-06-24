@@ -13,6 +13,7 @@
 #include <stdio.h>
 
 volatile unsigned int milliseconds = 0;
+volatile uint8_t running = 0; 
 
 // 7-segment display segment patterns (0-9)
 const uint8_t digitPatterns[10] = {
@@ -34,7 +35,7 @@ void initTimer1()
 	TCCR1B |= (1 << WGM12);
 
 	// Set the prescaler to 64
-	TCCR1B |= (1 << CS11) | (1 << CS10);
+	TCCR1B |= (1 << CS11)|(1 << CS10);
 
 	// Set the compare match value for 1ms interrupt
 	OCR1A = 250;
@@ -50,9 +51,12 @@ void initGPIO()
 {
 	// Set PB3 as output
 	DDRB |= (1 << PB3);
-
-	// Set PB2 as output
+	
 	DDRC |= (1 << PC3);
+
+	// Set PA0 and PA1 as input with pull-up resistors
+	DDRA &= ~((1 << PA0)|(1 << PA1));
+	PORTA |= (1 << PA0)|(1 << PA1);
 }
 
 void toggleLED()
@@ -97,8 +101,8 @@ ISR(TIMER1_COMPA_vect)
 {
 	milliseconds++;
 
-	// Update the time output every second
-	if (milliseconds % 1000 == 0)
+	// Update the time output every second if the program is running
+	if (milliseconds % 1000 == 0 && running)
 	{
 		printTime();
 
@@ -116,6 +120,21 @@ int main(void)
 
 	while (1)
 	{
+		// Check the status of PA0 and PA1 buttons
+		uint8_t buttonS0 = (PINA & (1 << PA0)) == 0;
+		uint8_t buttonS1 = (PINA & (1 << PA1)) == 0;
 
+		// Start the program if S0 button is pressed
+		if (buttonS0)
+		{
+			running = 1;
+			milliseconds = 0;
+		}
+
+		// Stop the program if S1 button is pressed
+		if (buttonS1)
+		{
+			running = 0;
+		}
 	}
 }
