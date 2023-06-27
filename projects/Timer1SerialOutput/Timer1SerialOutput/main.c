@@ -99,6 +99,7 @@ void printTime()
 
 ISR(TIMER1_COMPA_vect)
 {
+	// increment
 	milliseconds++;
 
 	// Update the time output every second if the program is running
@@ -113,10 +114,10 @@ ISR(TIMER1_COMPA_vect)
 
 int main(void)
 {
-	cli();
-	initTimer1();
-	initGPIO();
-	sei();
+	cli();	// lock global interrupts
+	initTimer1();	// init the timer
+	initGPIO();		// init the ports/reg
+	sei();	// release global interrupts
 
 	while (1)
 	{
