@@ -1,12 +1,11 @@
- /*
- * 5.c
+/*
+ * 4.c
  *
- * Created: 05.10.2023 09:48:03
+ * Created: 05.10.2023 09:38:38
  * Author : Adrian
  */ 
 #include <avr/io.h>
 #include <avr/interrupt.h>
-#include "LCD_4.h"
 
 // Pinbelegung
 #define CLK_PIN   PD3
@@ -15,8 +14,6 @@
 
 // Zählervariable
 volatile int16_t count = 0;
-volatile uint8_t encoderTicks = 0;
-const uint8_t vorteiler = 4;
 
 // Init Ports
 void InitPorts()
@@ -35,22 +32,15 @@ ISR(INT1_vect)
 	static uint8_t lastDir = 0; // Speichere den vorherigen Zustand des DIR-Signals
 	uint8_t currentDir = PIND & (1 << DIR_PIN); // Lese den aktuellen Zustand des DIR-Signals
 
-	//wenn drehrichtung geändert, invertiere die Zählrichtung
-	if (currentDir != lastDir)
+	// Wenn die Drehrichtung geändert hat, invertiere die Zählrichtung
+
+	if (currentDir) // Wenn "dir" gesetzt ist, zähle aufwärts
 	{
-		encoderTicks++;
-		if (encoderTicks >= vorteiler)
-		{
-			if (currentDir) // increment
-			{
-				count++;
-			}
-			else
-			{
-				count--;	// decrement
-			}
-			encoderTicks = 0; // reset
-		}
+		count++;
+	}
+	else
+	{
+		count--;
 	}
 
 	lastDir = currentDir;
@@ -61,7 +51,6 @@ ISR(INT1_vect)
 int main(void)
 {
 	InitPorts();
-	lcd_init();
 
 	cli();
 	MCUCR |= (1 << ISC11) | (1 << ISC10); // Steigende Flanke erzeugt Interrupt
@@ -70,7 +59,7 @@ int main(void)
 
 	while (1)
 	{
-		lcd_pos(0, 1);
-		printf("Position: %d\n", count);
 	}
 }
+
+
