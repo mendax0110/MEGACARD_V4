@@ -1,0 +1,64 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Atmel Studio Solution File, Format Version 11.00
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Timer0", "Timer0\Timer0.cproj", "{DCE6C7E3-EE26-4D79-826B-08594B9AD897}"
+EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "1_Aufgabe c", "1_Aufgabe c\1_Aufgabe c.cproj", "{00E9CB8D-E983-427B-B1F1-9E2B4FD7E2BB}"
+EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "1_Aufgabe d", "1_Aufgabe d\1_Aufgabe d.cproj", "{30BEF2F9-CE51-43A1-A8ED-340195F37119}"
+EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "1_Aufgabe e", "1_Aufgabe e\1_Aufgabe e.cproj", "{B123BC68-B6BB-4374-986A-121794DB189D}"
+EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "1_Aufgabe f", "1_Aufgabe f\1_Aufgabe f.cproj", "{3560E51A-0A49-4D2B-AF58-800260F02B3A}"
+EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "2_Aufgabe_a", "2_Aufgabe_a\2_Aufgabe_a.cproj", "{384B398B-8C45-4BBD-A874-73485C080A6E}"
+EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "2_Aufgabe_b", "2_Aufgabe_b\2_Aufgabe_b.cproj", "{53DF85E9-E2C0-4282-AADE-ACD3B76BEF35}"
+EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "2_Aufgabe_d", "2_Aufgabe_d\2_Aufgabe_d.cproj", "{3930686E-774B-4F09-8F2B-87DCF8BAB1FF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|AVR = Debug|AVR
+		Release|AVR = Release|AVR
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Debug|AVR.ActiveCfg = Debug|AVR
+		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Debug|AVR.Build.0 = Debug|AVR
+		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Release|AVR.ActiveCfg = Release|AVR
+		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Release|AVR.Build.0 = Release|AVR
+		{00E9CB8D-E983-427B-B1F1-9E2B4FD7E2BB}.Debug|AVR.ActiveCfg = Debug|AVR
+		{00E9CB8D-E983-427B-B1F1-9E2B4FD7E2BB}.Debug|AVR.Build.0 = Debug|AVR
+		{00E9CB8D-E983-427B-B1F1-9E2B4FD7E2BB}.Release|AVR.ActiveCfg = Release|AVR
+		{00E9CB8D-E983-427B-B1F1-9E2B4FD7E2BB}.Release|AVR.Build.0 = Release|AVR
+		{30BEF2F9-CE51-43A1-A8ED-340195F37119}.Debug|AVR.ActiveCfg = Debug|AVR
+		{30BEF2F9-CE51-43A1-A8ED-340195F37119}.Debug|AVR.Build.0 = Debug|AVR
+		{30BEF2F9-CE51-43A1-A8ED-340195F37119}.Release|AVR.ActiveCfg = Release|AVR
+		{30BEF2F9-CE51-43A1-A8ED-340195F37119}.Release|AVR.Build.0 = Release|AVR
+		{B123BC68-B6BB-4374-986A-121794DB189D}.Debug|AVR.ActiveCfg = Debug|AVR
+		{B123BC68-B6BB-4374-986A-121794DB189D}.Debug|AVR.Build.0 = Debug|AVR
+		{B123BC68-B6BB-4374-986A-121794DB189D}.Release|AVR.ActiveCfg = Release|AVR
+		{B123BC68-B6BB-4374-986A-121794DB189D}.Release|AVR.Build.0 = Release|AVR
+		{3560E51A-0A49-4D2B-AF58-800260F02B3A}.Debug|AVR.ActiveCfg = Debug|AVR
+		{3560E51A-0A49-4D2B-AF58-800260F02B3A}.Debug|AVR.Build.0 = Debug|AVR
+		{3560E51A-0A49-4D2B-AF58-800260F02B3A}.Release|AVR.ActiveCfg = Release|AVR
+		{3560E51A-0A49-4D2B-AF58-800260F02B3A}.Release|AVR.Build.0 = Release|AVR
+		{384B398B-8C45-4BBD-A874-73485C080A6E}.Debug|AVR.ActiveCfg = Debug|AVR
+		{384B398B-8C45-4BBD-A874-73485C080A6E}.Debug|AVR.Build.0 = Debug|AVR
+		{384B398B-8C45-4BBD-A874-73485C080A6E}.Release|AVR.ActiveCfg = Release|AVR
+		{384B398B-8C45-4BBD-A874-73485C080A6E}.Release|AVR.Build.0 = Release|AVR
+		{53DF85E9-E2C0-4282-AADE-ACD3B76BEF35}.Debug|AVR.ActiveCfg = Debug|AVR
+		{53DF85E9-E2C0-4282-AADE-ACD3B76BEF35}.Debug|AVR.Build.0 = Debug|AVR
+		{53DF85E9-E2C0-4282-AADE-ACD3B76BEF35}.Release|AVR.ActiveCfg = Release|AVR
+		{53DF85E9-E2C0-4282-AADE-ACD3B76BEF35}.Release|AVR.Build.0 = Release|AVR
+		{3930686E-774B-4F09-8F2B-87DCF8BAB1FF}.Debug|AVR.ActiveCfg = Debug|AVR
+		{3930686E-774B-4F09-8F2B-87DCF8BAB1FF}.Debug|AVR.Build.0 = Debug|AVR
+		{3930686E-774B-4F09-8F2B-87DCF8BAB1FF}.Release|AVR.ActiveCfg = Release|AVR
+		{3930686E-774B-4F09-8F2B-87DCF8BAB1FF}.Release|AVR.Build.0 = Release|AVR
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
