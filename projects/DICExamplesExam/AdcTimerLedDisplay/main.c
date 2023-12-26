@@ -14,6 +14,7 @@
 
 volatile uint8_t value = 0;
 volatile uint8_t TCNTVAR = 0;
+volatile uint8_t counter = 0;
 
 ISR(TIMER0_OVF_vect)
 {
@@ -26,6 +27,35 @@ ISR(TIMER0_OVF_vect)
 	}
 }
 
+ISR(TIMER1_COMPA_vect)
+{
+	OCR0 = counter;
+	
+	if(!(PINA & (1 << PA0)))
+	{
+		counter = 0;
+		initTimer1();
+	}
+}
+
+void initTimer1()
+{
+	TCCR1A |= (1 << COM1A1)|(1 << WGM11)|(1 << WGM10);
+	TCCR1B |= (1 << WGM12)|(1 << CS11);
+	
+	for(counter = 0; counter < 127; counter++)
+	{
+		_delay_ms(200);
+		lcd_pos(0,0);
+		printf("PWM: %u ", counter);
+		_delay_ms(200);
+	}
+	
+	OCR1A = counter;
+	
+	DDRB |= (1 << PB3);
+}
+
 void initTimer0()
 {
 	lcd_init();
@@ -36,7 +66,7 @@ void initTimer0()
 	{
 		_delay_ms(200);
 		lcd_pos(1,0);
-		printf("Timer1 Count: %d", TCNTVAR);
+		printf("Timer0 Count: %d", TCNTVAR);
 		_delay_ms(200);
 	}
 	 
@@ -76,6 +106,7 @@ int main(void)
     initPorts();
 	initADC();
 	initTimer0();
+	initTimer1();
 	lcd_init();
 	sei();
 	
@@ -93,5 +124,3 @@ int main(void)
 		} // wait till measurment finished
     }
 }
-
-
