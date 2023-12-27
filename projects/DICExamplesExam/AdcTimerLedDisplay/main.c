@@ -79,8 +79,8 @@ void initPorts()
 	DDRA &= ~(1 << PA5);	// set with and neg because of voltage measurment -> potentiometer Megacard (inout)
 	PORTA &= ~(1 << PA5);	// set high-z
 	
-	DDRA &= ~(1 << PA1)|(1 << PA0);
-	PORTA |= (1 << PA1)|(1 << PA0);
+	DDRA &= ~(1 << PA1)|(1 << PA0)|(1 << PA2);
+	PORTA |= (1 << PA1)|(1 << PA0)|(1 << PA2);
 	
 	DDRC |= 0xFF;		// indicator LED
 	PORTC |= 0x00;
@@ -137,8 +137,12 @@ int main(void)
 		while((ADCSRA & (1 << ADIF)))
 		{
 			value = ADCH;
+			PORTC = value;
 			
-			displayLEDsBasedOnADC(value);
+			if(!(PINA & (1 << PA2)))
+			{
+				displayLEDsBasedOnADC(value);
+			}
 			
 			lcd_pos(0,0);
 			printf("ADC-VALUE: %d" ,value);
