@@ -83,7 +83,7 @@ void initPorts()
 	PORTA |= (1 << PA1)|(1 << PA0);
 	
 	DDRC |= 0xFF;		// indicator LED
-	PORTC |= (1 << PC7);	
+	PORTC |= 0x00;
 }
 
 void initADC()	// now without return type, later with return type  
@@ -98,6 +98,26 @@ void initADC()	// now without return type, later with return type
 	ADMUX |= (1 << REFS0);	// external reference for voltage AVCC
 	
 	ADMUX |= (1 << ADLAR);	// presentation of bits in the ADC Data Register
+}
+
+void displayLEDsBasedOnADC(uint8_t adcValue) 
+{
+	if (adcValue < 64) 
+	{
+		PORTC = (1 << PC6)|(1 << PC4);
+	} 
+	else if (adcValue < 128) 
+	{
+		PORTC = (1 << PC1)|(1 << PC2)|(1 << PC7);
+	} 
+	else if (adcValue < 192) 
+	{
+		PORTC = (1 << PC1)|(1 << PC2)|(1 << PC6);
+	} 
+	else 
+	{
+		PORTC = 0x00;
+	}
 }
 
 int main(void)
@@ -117,7 +137,8 @@ int main(void)
 		while((ADCSRA & (1 << ADIF)))
 		{
 			value = ADCH;
-			PORTC = value;
+			
+			displayLEDsBasedOnADC(value);
 			
 			lcd_pos(0,0);
 			printf("ADC-VALUE: %d" ,value);
