@@ -51,10 +51,10 @@ int main(void)
 	while(1)
 	{
 		startConversation();
-		ADC_value = ADCL;
-		ADC_value |= (ADCH << 8);
+		
+		ADC_value = ADC;
+		
 		uint16_t temp_adc = ADC_value;
-
 		uint8_t temp = (temp_adc * 100) / 1023;
 
 		lcd_pos(0,0);
@@ -74,4 +74,3 @@ int main(void)
 		}
 	}
 }
-
