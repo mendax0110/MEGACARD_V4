@@ -17,6 +17,7 @@ volatile uint8_t minutes = 0;
 volatile uint8_t hours = 0;
 volatile uint8_t stopwatch_mode = 0;
 
+// Timer 1 compare interrupt, for the stopwatch/watch
 ISR(TIMER1_COMPA_vect)
 {
 	if(stopwatch_mode)
@@ -68,6 +69,7 @@ ISR(TIMER1_COMPA_vect)
 	}
 }
 
+// clear/reset the timer variables
 void resetTimerVariables()
 {
 	milliseconds = 0;
@@ -77,6 +79,7 @@ void resetTimerVariables()
 	stopwatch_mode = 0;
 }
 
+// init the leds and the buttons
 void initPorts()
 {
 	DDRA &= ~(1 << PA0)|(1 << PA1);
@@ -85,6 +88,7 @@ void initPorts()
 	PORTC &= 0x00;
 }
 
+// init the registers for the timer1
 void initTimer1()
 {
     TCCR1B |= (1 << WGM12) | (1 << CS12) | (1 << CS10);
@@ -93,18 +97,21 @@ void initTimer1()
     sei();
 }
 
+// update the display
 void updateDisplay()
 {
 	lcd_pos(0,0);
 	printf("TIME: %02d:%02d:%02d", hours, minutes, seconds);
 }
 
+// update the stopwatch on the display
 void updateStopwatchDisplay()
 {
 	lcd_pos(0,0);
 	printf("SW: %02d:%02d:%02d.%02d", hours, minutes, seconds, milliseconds);
 }
 
+// main function, call the init functions and start the main loop
 int main(void)
 {
 	initPorts();
@@ -140,7 +147,3 @@ int main(void)
         }
 	}
 }
-
-
-
-
