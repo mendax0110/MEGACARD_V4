@@ -8,7 +8,7 @@
 #include <avr/io.h>
 #include <avr/portpins.h>
 
-unsigned char SPDR_Content :=;
+unsigned char SPDR_Content = 0;
 
 void initPorts()
 {
@@ -27,7 +27,12 @@ void init_SPI()
 	SPCR |= (1 << SPE)|(1 << MSTR)|(1 << SPR0);	// SPI - Enable, MSTR, fosc = fcpu/8
 	SPSR |= (1 << SPI2X);
 	SPDR_Content = 0x00;	// Dateninhalt setzen
-	
+}
+
+void SPI_Transmit(unsigned char value)
+{
+	SPDR = value;	// Write to and update register
+	while(!(SPSR & (1<<SPIF)));	// wait until send is completed
 }
 
 int main(void)
@@ -37,12 +42,10 @@ int main(void)
 	
     while (1) 
     {
-		SPDR = 0x00;
-		
-		while(!(SPSR & (1 << SPIF)))
-		{
-			
-		}	
+		//SPDR = 0x10;					// SPI - Datenregister -> 0x10
+		//while(!(SPSR & (1 << SPIF)))	
+		SPI_Transmit(0x30);
+		SPI_Transmit(0xff);
+		SPI_Transmit(0xA0);
     }
 }
-
