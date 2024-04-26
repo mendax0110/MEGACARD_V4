@@ -16,15 +16,27 @@ void initPorts()
 	DDRD &= ~(1 << PD0);	// RxD - Recevice -> Eingang
 }
 
+void initUart()
+{
+	
+}
+
 int main(void)
 {
-	UBRRH = 0;	// define Baudrate	-> https://wormfood.net/avrbaudcalc.php
-	UBRRL = 0;
+	UBRRH = 0x00;	// define Baudrate	-> https://wormfood.net/avrbaudcalc.php
+	UBRRL = 0x4D;
+	UCSRB |= (1 << TXEN)|(1 << RXEN);	// transmission and recevive activate
+	UCSRC |= (1 << UCSZ1)|(1 << UCSZ0);	// parity displayed, Asynchroner Mode 8 Datenbits pro Packet
+										// Anzahl der Stopbits = 1 -> 8N1 - 8 Datenbits, NoParity, 1 Stopbit
+	
 	// Recevier bzw. Tranmitter aktivieren
 	// Protokoll definieren
 	initPorts();
     while (1) 
     {
+		while (!(UCSRA & (1 << UDRE)))	// UDRE = 1 sobald die Übertragung fertig ist
+		{
+			UDR = 'A';
+		}
     }
 }
-
