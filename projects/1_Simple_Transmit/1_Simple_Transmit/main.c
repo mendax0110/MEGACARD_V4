@@ -10,6 +10,8 @@
 #include <util/delay.h>
 #include <avr/portpins.h>
 
+#include "bluetooth.h"
+
 void initPorts()
 {
 	DDRD |= (1 << PD1);		// TxD - Transmit -> Ausgang
@@ -18,25 +20,26 @@ void initPorts()
 
 void initUart()
 {
-	
+	UBRRH = 0x00;	// define Baudrate	-> https://wormfood.net/avrbaudcalc.php
+	UBRRL = 0x4D;
+	UCSRB |= (1 << TXEN)|(1 << RXEN);	// transmission and recevive activate
+	UCSRC |= (1 << UCSZ1)|(1 << UCSZ0);	// parity disabled, Asynchroner Mode 8 Datenbits pro Packet
+	// Anzahl der Stopbits = 1 -> 8N1 - 8 Datenbits, NoParity, 1 Stopbit
+		// Recevier bzw. Tranmitter aktivieren
+		// Protokoll definieren
 }
 
 int main(void)
 {
-	UBRRH = 0x00;	// define Baudrate	-> https://wormfood.net/avrbaudcalc.php
-	UBRRL = 0x4D;
-	UCSRB |= (1 << TXEN)|(1 << RXEN);	// transmission and recevive activate
-	UCSRC |= (1 << UCSZ1)|(1 << UCSZ0);	// parity displayed, Asynchroner Mode 8 Datenbits pro Packet
-										// Anzahl der Stopbits = 1 -> 8N1 - 8 Datenbits, NoParity, 1 Stopbit
-	
-	// Recevier bzw. Tranmitter aktivieren
-	// Protokoll definieren
 	initPorts();
-    while (1) 
+    initUart();
+	bt_init(9600);
+	while (1) 
     {
-		while (!(UCSRA & (1 << UDRE)))	// UDRE = 1 sobald die Ãœbertragung fertig ist
+		while (!(UCSRA & (1 << UDRE)))	// UDRE = 1 sobald die Übertragung fertig ist
 		{
-			UDR = 'A';
+			UDR = 'A';	// or UDR = 65
 		}
     }
 }
+
