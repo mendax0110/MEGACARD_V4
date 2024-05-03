@@ -1,5 +1,5 @@
 # Ignore the /build directory
 /build
 
-# Ignore the Debug directory
-/Debug
+# Ignore the Debug directoy also in sub-directories
+**/Debug
