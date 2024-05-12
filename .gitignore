@@ -2,4 +2,4 @@
 /build
 
 # Ignore the Debug directoy also in sub-directories
-**/Debug
+****/Debug
