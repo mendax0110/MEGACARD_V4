@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Atmel Studio Solution File, Format Version 11.00
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Tryout", "Tryout\Tryout.cproj", "{DCE6C7E3-EE26-4D79-826B-08594B9AD897}"
+EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Tryout_1", "Tryout_1\Tryout_1.cproj", "{26AE9A00-539E-46DB-AD46-0D8EAE5D893B}"
+EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Tryout3", "Tryout3\Tryout3.cproj", "{932F5297-5781-4A9D-B5F2-247793A8D5D1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|AVR = Debug|AVR
+		Release|AVR = Release|AVR
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Debug|AVR.ActiveCfg = Debug|AVR
+		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Debug|AVR.Build.0 = Debug|AVR
+		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Release|AVR.ActiveCfg = Release|AVR
+		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Release|AVR.Build.0 = Release|AVR
+		{26AE9A00-539E-46DB-AD46-0D8EAE5D893B}.Debug|AVR.ActiveCfg = Debug|AVR
+		{26AE9A00-539E-46DB-AD46-0D8EAE5D893B}.Debug|AVR.Build.0 = Debug|AVR
+		{26AE9A00-539E-46DB-AD46-0D8EAE5D893B}.Release|AVR.ActiveCfg = Release|AVR
+		{26AE9A00-539E-46DB-AD46-0D8EAE5D893B}.Release|AVR.Build.0 = Release|AVR
+		{932F5297-5781-4A9D-B5F2-247793A8D5D1}.Debug|AVR.ActiveCfg = Debug|AVR
+		{932F5297-5781-4A9D-B5F2-247793A8D5D1}.Debug|AVR.Build.0 = Debug|AVR
+		{932F5297-5781-4A9D-B5F2-247793A8D5D1}.Release|AVR.ActiveCfg = Release|AVR
+		{932F5297-5781-4A9D-B5F2-247793A8D5D1}.Release|AVR.Build.0 = Release|AVR
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
